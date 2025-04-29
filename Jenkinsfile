@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'composer:latest'
+        }
+    }
+
 
     environment {
         COMPOSER_ALLOW_SUPERUSER = 1
