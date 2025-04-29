@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        COMPOSER_ALLOW_SUPERUSER = 1
-    }
-
     stages {
         stage('Clone Project') {
             steps {
