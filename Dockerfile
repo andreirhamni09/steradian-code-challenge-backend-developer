@@ -1,8 +1,8 @@
 FROM jenkins/jenkins:lts
 
-# Install dependencies
 USER root
-# Install dependencies: PHP CLI, extensions, curl, git, unzip
+
+# Install PHP dan ekstensi Laravel
 RUN apt-get update && \
     apt-get install -y \
     php-cli \
@@ -10,14 +10,13 @@ RUN apt-get update && \
     php-mbstring \
     php-xml \
     php-zip \
-    curl \
     git \
+    curl \
     unzip \
     apt-transport-https \
     ca-certificates \
     gnupg \
-    lsb-release && \
-    apt-get clean
+    lsb-release
 
 # Install Docker CLI
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
@@ -28,18 +27,10 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/docker-compose && \
-    chmod +x /usr/local/bin/docker-compose
-    
-# Install Composer (PHP package manager)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 
-# Install Node.js dan NPM (Jika diperlukan untuk Laravel Mix)
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs
+# (Opsional) Install Composer
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
 
-# Kembali ke user jenkins
 USER jenkins
-
-# Set Jenkins home
-ENV JENKINS_HOME /var/jenkins_home
