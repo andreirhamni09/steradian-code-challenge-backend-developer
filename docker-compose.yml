@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: ./laravel-app
+    working_dir: /var/www
+    volumes:
+      - ./laravel-app:/var/www
+    command: php artisan serve --host=0.0.0.0 --port=9000
+    ports:
+      - "9000:9000"
+    depends_on:
+      - jenkins
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    user: root
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+
+volumes:
+  jenkins-data:
