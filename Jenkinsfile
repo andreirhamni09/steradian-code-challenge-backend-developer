@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Project') {
             steps {
-                git credentialsId: 'f55d6ab3-1e3c-45e8-9ed8-c07d8dbac878', url: 'https://github.com/andreirhamni09/steradian-code-challenge-backend-developer.git'
+                git credentialsId: 'a9ad390e-a198-46a8-b9e4-1edbb10f449d', url: 'https://github.com/andreirhamni09/steradian-code-challenge-backend-developer.git'
             }
         }
 
