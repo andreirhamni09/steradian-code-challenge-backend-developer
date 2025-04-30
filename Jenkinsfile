@@ -50,6 +50,12 @@ pipeline {
                 }
             }
         }
+        stage('Check Tools') {
+            steps {
+                sh 'which docker || echo "docker NOT found"'
+                sh 'which docker-compose || echo "docker-compose NOT found"'
+            }
+        }
     }
     
     post {
