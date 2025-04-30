@@ -4,12 +4,16 @@ services:
   laravel:
     build:
       context: .
+      dockerfile: Dockerfile
+    container_name: laravel-app
     working_dir: /var/www
     volumes:
       - .:/var/www
     command: php artisan serve --host=0.0.0.0 --port=9000
     ports:
       - "9000:9000"
+    depends_on:
+      - jenkins
 
   jenkins:
     image: jenkins/jenkins:lts
@@ -19,8 +23,9 @@ services:
       - "8080:8080"
     volumes:
       - jenkins-data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock  # 💥 Ini yang penting
-    restart: unless-stopped
+      - /var/run/docker.sock:/var/run/docker.sock  # 👈 Mount Docker socket agar Jenkins bisa jalankan Docker
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
 
 volumes:
   jenkins-data:
